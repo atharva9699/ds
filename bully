@@ -1,0 +1,123 @@
+#include<iostream>
+using namespace std;
+
+bool active[100];
+int totalnodes;
+
+void startelection(int starter)
+{
+    bool leader=false;
+    
+    for(int i=starter+1;i<=totalnodes;i++)
+    {
+      if(active[i])
+      {
+        cout<<"Node"<<starter<<"sends Election to node"<<i<<endl;
+        cout<<"Node"<<i<<"responds ok to node"<<starter<<endl;
+        
+        leader=true;
+        
+        startelection(i);
+        
+        return ;
+      }
+    }
+    
+    if(!leader)
+    {
+      cout<<"the new leader"<<starter<<endl;
+      for(int i=0;i<=totalnodes;i++)
+      {
+        if(active[i] && i!=starter)
+        {
+          cout<<"Leader"<<starter<<"sends message to"<<i<<endl;
+        }
+      }
+    }
+}
+
+int main(){
+  cout<<"enter number of nodes";
+  cin>>totalnodes;
+  
+  for(int i=1;i<=totalnodes;i++)
+  {
+    active[i]=true;
+  }
+  
+  int failed;
+  cout<<"Enter the node that fails";
+  cin>>failed;
+  active[failed]=false;
+  
+  int starter;
+  cout<<"enter node that starts election:";
+  cin>>starter;
+  
+  startelection(starter);
+  return 0;
+}
+
+
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int main()
+{
+    int n;
+    cout<<"enter number of nodes";
+    cin>>n;
+    
+    vector<int>active(n);
+    
+    cout<<"enter status of each node:0 or 1";
+    for(int i=0;i<n;i++)
+    {
+      cout<<"Node"<<i<<":";
+      cin>>active[i];
+    }
+    
+    int starter;
+    cout<<"Enter node that starts election:";
+    cin>>starter;
+    
+    cout<<"ring election started:";
+    
+    vector<int>electionList;
+    int current=starter;
+    
+    do{
+      if(active[current])
+      {
+        cout<<"Node "<<current<<"passes ELECTION message\n";
+        electionList.push_back(current);
+      }
+      current=(current+1)%n;
+    }while(current!=starter);
+    
+    int leader=-1;
+    
+    for(int id:electionList)
+    {
+     if(id>leader)leader=id;
+    }
+    
+    cout<<"Node"<<leader<<"is elected as Leader";
+    
+    current=leader;
+    
+    do{
+       if(active[current])
+       {
+         cout<<"Node"<<leader<<"sends CORDINATOR message to Node"<<current<<endl;
+         
+        }
+        current=(current+1)%n;
+        
+    }while(current!=leader);
+    
+    return 0;
+
+}
