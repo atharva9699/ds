@@ -1,0 +1,68 @@
+import java.io.*;
+import java.util.*;
+
+class tokenring{
+    public static void main(String args[]) throws Throwable{
+     Scanner sc=new Scanner(System.in);
+     System.out.println("enter number of nodes;");
+     int n=sc.nextInt();
+     int m=n-1;
+     
+     int token=0;
+     int ch=0,flag=0;
+     for(int i=0;i<n;i++)
+     {
+      System.out.print(" "+i);
+     }
+     System.out.println(" "+0);
+     do{
+        System.out.println("enter sender ");
+        int s=sc.nextInt();
+        
+        System.out.println("enter receiver ");
+        int r=sc.nextInt();
+        
+        System.out.println("enter data ");
+        int a=sc.nextInt();
+        
+        System.out.println("token passing");
+        for(int i=token,j=token;(i%n)!=s;i++,j=(j+1)%n)
+        {
+              System.out.print(" "+j+"->");
+        }
+        System.out.println(" "+s);
+        System.out.println("Sender is"+s+"with data"+a);
+        for(int i=s+1;(i%n)!=r;i=(i+1)%n)
+        {
+          System.out.println("data "+a+"is forwarded to"+i);
+        }
+         System.out.println("data "+a+"is recieved to"+r);
+        
+        token=s;
+        
+        do{
+         try{
+            if(flag==1)
+            {
+               System.out.println("invalid data");
+            }
+            
+            System.out.println("want to continue yes 1 no 0");
+            ch=sc.nextInt();
+            
+            if(ch!=0 && ch!=1)
+            {
+              flag=1;
+            }
+            else
+            {
+              flag=0;
+            }
+         }catch(InputMismatchException e)
+         {
+          System.out.println("inavalid input");
+         }
+        }while(ch!=1 && ch!=0);
+     }while(ch==1);
+    }
+}
